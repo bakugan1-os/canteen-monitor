@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моніторинг черги</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 30px; font-weight: 300; }
+        .card {
+            background: #16213e;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .status-bar {
+            height: 40px;
+            border-radius: 12px;
+            background: #333;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+        .fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease, background 0.5s ease;
+            border-radius: 12px;
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+        .level-text {
+            font-size: 2rem;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .connecting {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🍽 Статус черги в їдальні</h1>
+    <div class="card">
+        <div class="status-bar">
+            <div class="fill" id="fill"></div>
+        </div>
+        <div class="level-text" id="level">—</div>
+        <div class="info">
+            <span>👥 <span id="people">0</span></span>
+            <span>📊 <span id="percent">0</span>%</span>
+        </div>
+        <div class="connecting" id="status">Підключення...</div>
+    </div>
+
+    <script>
+        const fill = document.getElementById('fill');
+        const levelText = document.getElementById('level');
+        const peopleSpan = document.getElementById('people');
+        const percentSpan = document.getElementById('percent');
+        const statusText = document.getElementById('status');
+
+        const wsUrl = (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.host + '/ws';
+        let ws;
+
+        function connect() {
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = () => {
+                statusText.textContent = 'Підключено (оновлення в реальному часі)';
+                statusText.style.color = '#4ecca3';
+            };
+
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                const { people, max, level, percent } = data;
+
+                peopleSpan.textContent = people;
+                percentSpan.textContent = percent;
+
+                fill.style.width = percent + '%';
+
+                if (level === 'free') {
+                    fill.style.background = '#4ecca3';
+                    levelText.textContent = '🟢 Вільно';
+                    levelText.style.color = '#4ecca3';
+                } else if (level === 'busy') {
+                    fill.style.background = '#3498db';
+                    levelText.textContent = '🔵 Середня черга';
+                    levelText.style.color = '#3498db';
+                } else {
+                    fill.style.background = '#e74c3c';
+                    levelText.textContent = '🔴 Черга повна';
+                    levelText.style.color = '#e74c3c';
+                }
+            };
+
+            ws.onclose = () => {
+                statusText.textContent = 'Звʼязок втрачено. Перепідключення...';
+                statusText.style.color = '#e74c3c';
+                setTimeout(connect, 3000);
+            };
+
+            ws.onerror = (err) => {
+                console.error('WebSocket error:', err);
+            };
+        }
+
+        connect();
+    </script>
+</body>
+</html>
