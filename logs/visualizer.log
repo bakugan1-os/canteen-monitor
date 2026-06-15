@@ -1,11 +1,12 @@
-qt.qpa.plugin: Could not find the Qt platform plugin "wayland" in "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/plugins"
-QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
-Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
-QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
-Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
-QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
-Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
-QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
-Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
-QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
-Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+[ WARN:0@33.607] global cap_ffmpeg_impl.hpp:453 _opencv_ffmpeg_interrupt_callback Stream timeout triggered after 30033.957738 ms
+🎥 Підключення до камери: rtsp://admin:mhp12345@192.168.1.108:554/cam/realmonitor?channel=1&subtype=1
+Traceback (most recent call last):
+  File "/home/mhp1/canteen-monitor/backend/visualizer.py", line 109, in <module>
+    main()
+    ~~~~^^
+  File "/home/mhp1/canteen-monitor/backend/visualizer.py", line 31, in main
+    camera.start()
+    ~~~~~~~~~~~~^^
+  File "/home/mhp1/canteen-monitor/backend/camera.py", line 37, in start
+    raise RuntimeError(f"Не вдалося відкрити джерело: {self.source}")
+RuntimeError: Не вдалося відкрити джерело: rtsp://admin:mhp12345@192.168.1.108:554/cam/realmonitor?channel=1&subtype=1

@@ -95,52 +95,92 @@
         const percentSpan = document.getElementById('percent');
         const statusText = document.getElementById('status');
 
-        const wsUrl = (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.host + '/ws';
-        let ws;
+        function updateDashboard(data) {
+            const { people, max, level, percent } = data;
 
-        function connect() {
-            ws = new WebSocket(wsUrl);
+            peopleSpan.textContent = people;
+            percentSpan.textContent = percent;
+            fill.style.width = percent + '%';
 
-            ws.onopen = () => {
-                statusText.textContent = 'Підключено (оновлення в реальному часі)';
-                statusText.style.color = '#4ecca3';
-            };
-
-            ws.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                const { people, max, level, percent } = data;
-
-                peopleSpan.textContent = people;
-                percentSpan.textContent = percent;
-                fill.style.width = percent + '%';
-
-                if (level === 'free') {
-                    fill.style.background = '#4ecca3';
-                    levelText.textContent = '🟢 Вільно';
-                    levelText.style.color = '#4ecca3';
-                } else if (level === 'busy') {
-                    fill.style.background = '#3498db';
-                    levelText.textContent = '🔵 Середня черга';
-                    levelText.style.color = '#3498db';
-                } else {
-                    fill.style.background = '#e74c3c';
-                    levelText.textContent = '🔴 Черга повна';
-                    levelText.style.color = '#e74c3c';
-                }
-            };
-
-            ws.onclose = () => {
-                statusText.textContent = 'Звʼязок втрачено. Перепідключення...';
-                statusText.style.color = '#e74c3c';
-                setTimeout(connect, 3000);
-            };
-
-            ws.onerror = (err) => {
-                console.error('WebSocket error:', err);
-            };
+            if (level === 'free') {
+                fill.style.background = '#4ecca3';
+                levelText.textContent = '🟢 Вільно';
+                levelText.style.color = '#4ecca3';
+            } else if (level === 'busy') {
+                fill.style.background = '#3498db';
+                levelText.textContent = '🔵 Середня черга';
+                levelText.style.color = '#3498db';
+            } else {
+                fill.style.background = '#e74c3c';
+                levelText.textContent = '🔴 Черга повна';
+                levelText.style.color = '#e74c3c';
+            }
         }
 
-        connect();
+        // Спробуємо WebSocket
+        const wsUrl = (location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + location.host + '/ws';
+        let ws = null;
+        let usePolling = false;
+
+        function connectWS() {
+            try {
+                ws = new WebSocket(wsUrl);
+                ws.onopen = () => {
+                    statusText.textContent = 'Підключено';
+                    statusText.style.color = '#4ecca3';
+                    usePolling = false;
+                };
+                ws.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    updateDashboard(data);
+                };
+                ws.onclose = () => {
+                    if (!usePolling) {
+                        statusText.textContent = 'Втрачено';
+                        statusText.style.color = '#e74c3c';
+                        usePolling = true;
+                        startPolling();
+                    }
+                };
+                ws.onerror = () => {
+                    usePolling = true;
+                    startPolling();
+                };
+            } catch (e) {
+                usePolling = true;
+                startPolling();
+            }
+        }
+
+        // HTTP polling fallback
+        async function fetchStatus() {
+            try {
+                const res = await fetch('/status');
+                const data = await res.json();
+                updateDashboard({
+                    people: data.people_in_roi,
+                    max: data.max,
+                    level: data.level,
+                    percent: data.percent
+                });
+                statusText.textContent = 'Підключено';
+                statusText.style.color = '#4ecca3';
+            } catch (err) {
+                statusText.textContent = 'Помилка зʼєднання...';
+                statusText.style.color = '#e74c3c';
+            }
+        }
+
+        function startPolling() {
+            fetchStatus();
+            setInterval(fetchStatus, 1000);
+        }
+
+        // Стартуємо
+        connectWS();
+        setTimeout(() => {
+            if (usePolling) startPolling();
+        }, 2000);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0a85552eab0c31b',t:'MTc4MTI2MTgzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>

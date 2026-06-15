@@ -149,8 +149,22 @@ async def websocket_endpoint(websocket: WebSocket):
 @app.get("/analytics", response_class=HTMLResponse)
 async def get_analytics():
     """HTML-звіт по 15-хвилинних слотах (11:30 – 14:00)."""
-    report = analytics.get_report(days=7)
-    
+    try:
+        report = analytics.get_report(days=7)
+    except Exception as e:
+        # Якщо помилка — показати її на сторінці
+        return HTMLResponse(content=f"""
+        <html>
+        <body style="background:#1a1a2e;color:#fff;padding:20px;font-family:Arial;">
+            <h1>⚠️ Помилка аналітики</h1>
+            <p>{str(e)}</p>
+            <p>Файл: {analytics.LOG_FILE}</p>
+            <p>Існує: {analytics.LOG_FILE.exists()}</p>
+            <a href="/" style="color:#4ecca3;">← Назад до дашборду</a>
+        </body>
+        </html>
+        """, status_code=500)
+
     html = """<html>
 <head>
     <meta charset="UTF-8">

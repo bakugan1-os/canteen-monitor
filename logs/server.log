@@ -1,4 +1,236 @@
-INFO:     Started server process [6983]
+INFO:     Started server process [3336]
 INFO:     Waiting for application startup.
 INFO:main:🚀 Запуск системи...
-INFO:main:📊 Завантажено max_people: 0
+INFO:main:📊 Завантажено max_people: 4
+INFO:camera:Camera thread started
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     192.168.1.110:47052 - "GET / HTTP/1.1" 200 OK
+INFO:     192.168.1.110:47062 - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     192.168.1.110:47052 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:36686 - "GET / HTTP/1.1" 200 OK
+INFO:     10.39.107.199:0 - "GET / HTTP/1.1" 200 OK
+INFO:     10.39.107.199:0 - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     10.39.107.199:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     connection closed
+INFO:     127.0.0.1:56214 - "GET /status HTTP/1.1" 200 OK
+INFO:main:WebSocket disconnected: 
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 160, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 157, in app
+    await func(session)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 764, in app
+    await dependant.call(**solved_result.values)
+  File "/home/mhp1/canteen-monitor/backend/main.py", line 146, in websocket_endpoint
+    await websocket.close()
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 181, in close
+    await self.send({"type": "websocket.close", "code": code, "reason": reason or ""})
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 98, in send
+    raise RuntimeError('Cannot call "send" once a close message has been sent.')
+RuntimeError: Cannot call "send" once a close message has been sent.
+INFO:     127.0.0.1:56218 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54256 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54270 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54274 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54282 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54296 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54302 - "GET /status HTTP/1.1" 200 OK
+INFO:     77.52.188.38:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     77.52.188.38:0 - "GET / HTTP/1.1" 200 OK
+INFO:     77.52.188.38:0 - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:51464 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47680 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51890 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42332 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59920 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57494 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57506 - "WebSocket /ws" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:57516 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:41688 - "GET /analytics HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:main:WebSocket disconnected: 
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 160, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 157, in app
+    await func(session)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 764, in app
+    await dependant.call(**solved_result.values)
+  File "/home/mhp1/canteen-monitor/backend/main.py", line 146, in websocket_endpoint
+    await websocket.close()
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 181, in close
+    await self.send({"type": "websocket.close", "code": code, "reason": reason or ""})
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 98, in send
+    raise RuntimeError('Cannot call "send" once a close message has been sent.')
+RuntimeError: Cannot call "send" once a close message has been sent.
+INFO:     127.0.0.1:58696 - "GET /status HTTP/1.1" 200 OK
+INFO:     connection closed
+INFO:main:WebSocket disconnected: 
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 160, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 157, in app
+    await func(session)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 764, in app
+    await dependant.call(**solved_result.values)
+  File "/home/mhp1/canteen-monitor/backend/main.py", line 146, in websocket_endpoint
+    await websocket.close()
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 181, in close
+    await self.send({"type": "websocket.close", "code": code, "reason": reason or ""})
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 98, in send
+    raise RuntimeError('Cannot call "send" once a close message has been sent.')
+RuntimeError: Cannot call "send" once a close message has been sent.
+INFO:     127.0.0.1:38570 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:45022 - "GET /status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48052 - "GET /status HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     connection closed
+INFO:     Waiting for background tasks to complete. (CTRL+C to force quit)
+INFO:main:WebSocket disconnected: 
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/protocols/websockets/websockets_impl.py", line 239, in run_asgi
+    result = await self.app(self.scope, self.asgi_receive, self.asgi_send)  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 62, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/applications.py", line 1159, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/applications.py", line 90, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 660, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 680, in app
+    await route.handle(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/routing.py", line 350, in handle
+    await self.app(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 160, in app
+    await wrap_app_handling_exceptions(app, session)(scope, receive, send)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 157, in app
+    await func(session)
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/fastapi/routing.py", line 764, in app
+    await dependant.call(**solved_result.values)
+  File "/home/mhp1/canteen-monitor/backend/main.py", line 146, in websocket_endpoint
+    await websocket.close()
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 181, in close
+    await self.send({"type": "websocket.close", "code": code, "reason": reason or ""})
+  File "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/starlette/websockets.py", line 98, in send
+    raise RuntimeError('Cannot call "send" once a close message has been sent.')
+RuntimeError: Cannot call "send" once a close message has been sent.
+INFO:     Waiting for application shutdown.
+INFO:main:🛑 Зупинка системи...
+INFO:     Application shutdown complete.
+INFO:     Finished server process [3336]

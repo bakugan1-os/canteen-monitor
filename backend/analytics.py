@@ -4,7 +4,9 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from collections import defaultdict
 
-DATA_DIR = Path(__file__).parent.parent / "data"
+# Визначаємо шляхи абсолютно, щоб працювало з будь-якої папки
+BASE_DIR = Path(__file__).parent.parent
+DATA_DIR = BASE_DIR / "data"
 LOG_FILE = DATA_DIR / "analytics.csv"
 
 HEADERS = ["date", "time_slot", "people", "level"]
@@ -24,21 +26,24 @@ def _get_time_slot(dt: datetime) -> str:
 
 def log_state(people: int, level: str):
     """Записати точку даних у CSV."""
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    now = datetime.now()
-    slot = _get_time_slot(now)
-    row = [
-        now.strftime("%Y-%m-%d"),
-        slot,
-        people,
-        level
-    ]
-    file_exists = LOG_FILE.exists()
-    with open(LOG_FILE, "a", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        if not file_exists:
-            writer.writerow(HEADERS)
-        writer.writerow(row)
+    try:
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        now = datetime.now()
+        slot = _get_time_slot(now)
+        row = [
+            now.strftime("%Y-%m-%d"),
+            slot,
+            people,
+            level
+        ]
+        file_exists = LOG_FILE.exists()
+        with open(LOG_FILE, "a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            if not file_exists:
+                writer.writerow(HEADERS)
+            writer.writerow(row)
+    except Exception as e:
+        print(f"[analytics] Помилка запису: {e}")
 
 
 def get_report(days: int = 7):
@@ -49,24 +54,31 @@ def get_report(days: int = 7):
     cutoff = datetime.now() - timedelta(days=days)
     stats = defaultdict(lambda: {"total_people": 0, "count": 0, "full_count": 0})
 
-    with open(LOG_FILE, "r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            try:
-                row_date = datetime.strptime(row["date"], "%Y-%m-%d")
-            except ValueError:
-                continue
-            if row_date < cutoff:
-                continue
-            slot = row["time_slot"]
-            if slot not in SLOTS:
-                continue
-            people = int(row["people"])
-            level = row["level"]
-            stats[slot]["total_people"] += people
-            stats[slot]["count"] += 1
-            if level == "full":
-                stats[slot]["full_count"] += 1
+    try:
+        with open(LOG_FILE, "r", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                try:
+                    row_date = datetime.strptime(row["date"], "%Y-%m-%d")
+                except ValueError:
+                    continue
+                if row_date < cutoff:
+                    continue
+                slot = row.get("time_slot", "")
+                if slot not in SLOTS:
+                    continue
+                try:
+                    people = int(row["people"])
+                except ValueError:
+                    people = 0
+                level = row.get("level", "")
+                stats[slot]["total_people"] += people
+                stats[slot]["count"] += 1
+                if level == "full":
+                    stats[slot]["full_count"] += 1
+    except Exception as e:
+        print(f"[analytics] Помилка читання: {e}")
+        return []
 
     report = []
     for slot in SLOTS:
