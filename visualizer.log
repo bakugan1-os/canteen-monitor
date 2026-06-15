@@ -1,0 +1,15 @@
+nohup: ignoring input
+qt.qpa.plugin: Could not find the Qt platform plugin "wayland" in "/home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/plugins"
+QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+QFontDatabase: Cannot find font directory /home/mhp1/canteen-monitor/.venv/lib/python3.13/site-packages/cv2/qt/fonts.
+Note that Qt no longer ships fonts. Deploy some (from https://dejavu-fonts.github.io/ for example) or switch to fontconfig.
+🎥 Підключення до камери: /home/mhp1/canteen-monitor/test_real_people.jpg
+✅ Візуалізатор запущено. Натисни 'q' або ESC для виходу.
+🛑 Візуалізатор зупинено.

@@ -6,10 +6,12 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, WebSocket
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 
 import detector
 import zone
 import stats
+import analytics
 from camera import CameraSource
 from config import VIDEO_SOURCE, LEVEL_FREE, LEVEL_BUSY, WS_UPDATE_INTERVAL
 
@@ -24,6 +26,7 @@ state = {
     "max_people": 0,
     "level": "free",
     "percent": 0,
+    "last_log": 0,
 }
 
 camera_source = None
@@ -65,6 +68,11 @@ def processing_loop():
                 state["level"] = "busy"
             else:
                 state["level"] = "full"
+
+            # Лог аналітики раз на 15 хвилин (900 секунд)
+            if time.time() - state.get("last_log", 0) >= 900:
+                analytics.log_state(state["people_in_roi"], state["level"])
+                state["last_log"] = time.time()
 
         time.sleep(0.5)  # ~2 FPS обробки
 
@@ -136,6 +144,73 @@ async def websocket_endpoint(websocket: WebSocket):
         logger.info(f"WebSocket disconnected: {e}")
     finally:
         await websocket.close()
+
+
+@app.get("/analytics", response_class=HTMLResponse)
+async def get_analytics():
+    """HTML-звіт по 15-хвилинних слотах (11:30 – 14:00)."""
+    report = analytics.get_report(days=7)
+    
+    html = """<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналітика черги</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #1a1a2e; color: #fff; padding: 20px; }
+        h1 { text-align: center; font-weight: 300; }
+        table { width: 100%; max-width: 700px; margin: 20px auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #444; text-align: center; }
+        th { background: #16213e; }
+        tr:nth-child(even) { background: #0f3460; }
+        .green { color: #4ecca3; font-weight: bold; }
+        .blue { color: #3498db; font-weight: bold; }
+        .red { color: #e74c3c; font-weight: bold; }
+        .info { text-align: center; color: #888; margin-top: 20px; }
+        .back-link { display: block; text-align: center; margin-top: 20px; color: #4ecca3; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>📊 Аналітика черги (11:30 – 14:00, останні 7 днів)</h1>
+    <table>
+        <tr>
+            <th>Час</th>
+            <th>Середня черга</th>
+            <th>Записів</th>
+            <th>% ПОВНА</th>
+            <th>Рекомендація</th>
+        </tr>
+"""
+    
+    for row in report:
+        color_class = ""
+        if "Вільно" in row["recommend"]:
+            color_class = "green"
+        elif "Уникайте" in row["recommend"]:
+            color_class = "red"
+        elif "Завантажено" in row["recommend"] or "Помірно" in row["recommend"]:
+            color_class = "blue"
+        
+        avg = f"{row['avg_people']:.1f}" if row["count"] > 0 else "—"
+        pct = f"{row['pct_full']:.0f}%" if row["count"] > 0 else "—"
+        
+        html += f"""<tr>
+            <td>{row['slot']}</td>
+            <td>{avg}</td>
+            <td>{row['count']}</td>
+            <td>{pct}</td>
+            <td class="{color_class}">{row['recommend']}</td>
+        </tr>
+"""
+    
+    html += """</table>
+    <p class="info">Оновлюється автоматично. Дані записуються кожні 15 хвилин.</p>
+    <a href="/" class="back-link">← Назад до дашборду</a>
+</body>
+</html>"""
+    
+    return HTMLResponse(content=html)
 
 
 # Роздаємо фронтенд як статичні файли

@@ -5,7 +5,7 @@ from pathlib import Path
 # - IP-камера: "rtsp://admin:admin@192.168.1.100:554/stream"
 # - Файл для тестів: "test.mp4"
 # - Raspberry Pi Camera Module (через V4L2): "/dev/video0" або "0"
-VIDEO_SOURCE = os.getenv("VIDEO_SOURCE", str(Path(__file__).parent.parent / "test_real_people.jpg"))
+VIDEO_SOURCE = os.getenv("VIDEO_SOURCE", "rtsp://admin:mhp12345@192.168.1.108:554/cam/realmonitor?channel=1&subtype=1")
 
 # Пороги рівнів завантаженості
 LEVEL_FREE = 0.40       # < 40% — зелений

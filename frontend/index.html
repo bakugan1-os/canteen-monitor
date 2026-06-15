@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Моніторинг черги</title>
+    <title>Статус черги в їдальні</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -17,7 +17,7 @@
             min-height: 100vh;
             padding: 20px;
         }
-        h1 { margin-bottom: 30px; font-weight: 300; }
+        h1 { margin-bottom: 10px; font-weight: 300; }
         .card {
             background: #16213e;
             border-radius: 20px;
@@ -57,6 +57,20 @@
             font-size: 0.9rem;
             margin-top: 10px;
         }
+        .analytics-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #0f3460;
+            color: #4ecca3;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: background 0.2s;
+        }
+        .analytics-link:hover {
+            background: #1a1a2e;
+        }
     </style>
 </head>
 <body>
@@ -71,6 +85,7 @@
             <span>📊 <span id="percent">0</span>%</span>
         </div>
         <div class="connecting" id="status">Підключення...</div>
+        <a href="/analytics" class="analytics-link">📈 Аналітика</a>
     </div>
 
     <script>
@@ -97,7 +112,6 @@
 
                 peopleSpan.textContent = people;
                 percentSpan.textContent = percent;
-
                 fill.style.width = percent + '%';
 
                 if (level === 'free') {
@@ -128,5 +142,5 @@
 
         connect();
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0a85552eab0c31b',t:'MTc4MTI2MTgzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
